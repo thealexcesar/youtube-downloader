@@ -1,6 +1,6 @@
 //! Program for downloading audio or video from YouTube using yt-dlp.
 //! Ensure you have `yt-dlp` installed and available in your system's PATH.
-//! Version: 1.0.0
+//! Version: 1.0.1
 //! Author: alexcesar
 
 use std::env;
@@ -11,7 +11,7 @@ fn main() {
     let url = prompt_for_input("Enter YouTube URL:").trim().to_string();
     let video_id = extract_video_id(&url).expect("Invalid YouTube URL.");
 
-    let format = prompt_for_input("Choose format (mp3/mp4):").trim().to_string();
+    let format = prompt_for_input("Choose format (mp3/mp4):").trim().to_string().to_lowercase();
 
     let status = Command::new("yt-dlp")
         .arg("--get-filename")
@@ -44,8 +44,6 @@ fn extract_video_id(url: &str) -> Option<&str> {
 
 fn download_video_or_audio(id: &str, format: &str, filename: &str) {
     let home = env::var("HOME").unwrap_or(".".to_string());
-    let output_path = format!("{}/Music/{}", home, filename);
-
     match format {
         "mp3" => {
             Command::new("yt-dlp")
@@ -53,7 +51,7 @@ fn download_video_or_audio(id: &str, format: &str, filename: &str) {
                 .arg("--audio-format")
                 .arg("mp3")
                 .arg("--output")
-                .arg(&output_path)
+                .arg(format!("{}/Music/{}", home, filename))
                 .arg(format!("https://www.youtube.com/watch?v={}", id))
                 .spawn()
                 .expect("Failed to start download process")
@@ -65,7 +63,7 @@ fn download_video_or_audio(id: &str, format: &str, filename: &str) {
                 .arg("-f")
                 .arg("bestvideo+bestaudio/best")
                 .arg("--output")
-                .arg(&output_path)
+                .arg(format!("{}/Videos/{}", home, filename))
                 .arg(format!("https://www.youtube.com/watch?v={}", id))
                 .spawn()
                 .expect("Failed to start download process")
