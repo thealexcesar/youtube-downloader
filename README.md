@@ -1,6 +1,6 @@
 # README: Rust YouTube Downloader
 
-## This repository contains a Rust script for downloading audios and videos from YouTube using `yt-dlp`. Easy to use, you can grab your favorite YouTube content in your desired format (mp3 or mp4) and save it to your `HOME/Music` directory.
+This repository contains a Rust script for downloading audios and videos from YouTube using `yt-dlp`. Easy to use, you can grab your favorite YouTube content in your desired format (mp3 or mp4) and save it to your `HOME/Music` directory.
 
 ## Requirements
 
